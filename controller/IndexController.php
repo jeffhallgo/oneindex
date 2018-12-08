@@ -8,7 +8,7 @@ class IndexController{
 
 	function __construct(){
 		//获取路径和文件名
-		$paths = explode('/', rawurldecode($_GET['path']));
+		$paths = explode('/', rawurldecode(substr($_SERVER['REQUEST_URI'], 1)));
 		if(substr($_SERVER['REQUEST_URI'], -1) != '/'){
 			$this->name = array_pop($paths);
 		}
@@ -113,7 +113,7 @@ class IndexController{
 			//不在列表中展示
 			unset($this->items['HEAD.md']);
 		}
-		return view::load('list')->with('title', 'index of '. urldecode($this->url_path))
+		return view::load('list')->with('title', '目录 '. urldecode($this->url_path))
 					->with('navs', $navs)
 					->with('path',join("/", array_map("rawurlencode", explode("/", $this->url_path)))  )
 					->with('root', $root)
